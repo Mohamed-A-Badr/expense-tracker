@@ -9,6 +9,7 @@ class ExpenseListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = (
+            "id",
             "title",
             "category",
             "amount",
@@ -25,6 +26,7 @@ class ExpenseDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = (
+            "id",
             "title",
             "category",
             "amount",
