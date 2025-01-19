@@ -1,5 +1,7 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
 
+from .filters import ExpenseFilter
 from .models import Expense
 from .serializers import (
     ExpenseDetailAdminSerializer,
@@ -11,6 +13,8 @@ from .serializers import (
 class ExpenseListCreateView(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseListCreateSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ExpenseFilter
 
     def get_permissions(self):
         if self.request.method == "GET":
@@ -29,6 +33,8 @@ expense_list_create = ExpenseListCreateView.as_view()
 class ExpenseUserListView(generics.ListAPIView):
     serializer_class = ExpenseListCreateSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ExpenseFilter
 
     def get_queryset(self):
         return Expense.objects.select_related("user").filter(user=self.request.user)
