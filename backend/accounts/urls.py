@@ -7,4 +7,5 @@ urlpatterns = [
     path("signup/", views.register_new_user, name="register"),
     path("login/", TokenObtainPairView.as_view(), name="login"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("logout/", views.logout_view, name="logout"),
 ]

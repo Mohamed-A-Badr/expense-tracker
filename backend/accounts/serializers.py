@@ -34,3 +34,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             return user
         except ValidationError as e:
             raise serializers.ValidationError(str(e))
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
