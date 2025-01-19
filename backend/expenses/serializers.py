@@ -19,3 +19,19 @@ class ExpenseListCreateSerializer(serializers.ModelSerializer):
     def save(self, **kwargs):
         self.validated_data["user"] = self.context["request"].user
         return super().save(**kwargs)
+
+
+class ExpenseDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Expense
+        fields = (
+            "title",
+            "category",
+            "amount",
+            "date",
+        )
+
+
+class ExpenseDetailAdminSerializer(ExpenseDetailSerializer):
+    class Meta(ExpenseDetailSerializer.Meta):
+        fields = ExpenseDetailSerializer.Meta.fields + ("user",)
