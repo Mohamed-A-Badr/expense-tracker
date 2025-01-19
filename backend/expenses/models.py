@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from accounts.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -18,7 +20,7 @@ class Expense(models.Model):
     title = models.CharField(max_length=100)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    date = models.DateField()
+    date = models.DateField(default=datetime.now)
     user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="expenses"
     )
@@ -35,6 +37,9 @@ class Expense(models.Model):
         return f"{self.title} - {self.category}"
 
     def clean(self):
+        if isinstance(self.date, str):
+            self.date = datetime.strptime(self.date, "%Y-%m-%d").date()
+
         if self.date > now().date():
             raise ValidationError("Date cannot be in the future")
 
