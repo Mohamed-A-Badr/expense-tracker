@@ -10,9 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 from datetime import timedelta
-import time
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,8 +41,11 @@ INSTALLED_APPS = [
     # 3rd party apps
     "rest_framework",
     "rest_framework_simplejwt",
+    "drf_spectacular",
+    "django_filters",
     # local apps
     "accounts.apps.AccountsConfig",
+    "expenses.apps.ExpensesConfig",
 ]
 
 MIDDLEWARE = [
@@ -136,9 +138,18 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Expense Tracker API",
+    "DESCRIPTION": "An API for managing expenses",
+    "VERSION": "1.0.0",
 }
